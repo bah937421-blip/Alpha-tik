@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alpha Tik</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
+header{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#181818;position:sticky;top:0;z-index:2}
+.logo{font-size:24px;font-weight:bold;color:#ff3158}
+header button{background:none;color:white;border:0;font-size:17px}
+main{max-width:500px;margin:auto;padding:12px}
+h2{font-size:20px}
+.video{height:370px;border-radius:16px;background:linear-gradient(135deg,#222,#50304b,#121212);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.video video{width:100%;height:100%;object-fit:cover}
+.placeholder{text-align:center;padding:20px}
+.placeholder span{font-size:60px}
+.actions{display:flex;justify-content:space-around;padding:12px 0}
+.actions button{background:#252525;color:white;border:0;border-radius:20px;padding:10px 14px;font-size:15px}
+.caption{line-height:1.5}
+input{width:100%;padding:13px;border:0;border-radius:10px;margin:8px 0}
+.primary{background:#ff3158!important;color:white!important}
+nav{position:fixed;bottom:0;left:0;right:0;background:#181818;display:flex;justify-content:space-around;padding:14px 4px}
+nav button{background:none;border:0;color:white;font-size:14px}
+footer{height:55px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">α Alpha Tik</div>
+  <button onclick="showSearch()">🔎 Rechercher</button>
+</header>
+
+<main id="app">
+  <h2>Découvre des vidéos 🎬</h2>
+
+  <div class="video" id="videoBox">
+    <div class="placeholder">
+      <span>🎥</span>
+      <p>Bienvenue sur Alpha Tik !</p>
+      <p>Choisis une vidéo sur ton téléphone pour commencer.</p>
+      <input type="file" accept="video/*" onchange="loadVideo(event)">
+    </div>
+  </div>
+
+  <div class="actions">
+    <button onclick="like()">❤️ J'aime <span id="likes">0</span></button>
+    <button onclick="comment()">💬 Commenter</button>
+    <button onclick="share()">↗️ Partager</button>
+  </div>
+
+  <p class="caption"><strong>@AlphaTik</strong><br>
+  Bienvenue dans notre communauté ! ✨
+  Partage tes meilleurs moments avec le monde.</p>
+
+  <div id="comments"></div>
+</main>
+
+<footer></footer>
+
+<nav>
+  <button onclick="home()">🏠 Accueil</button>
+  <button onclick="showSearch()">🔎 Découvrir</button>
+  <button onclick="upload()">➕ Publier</button>
+  <button onclick="profile()">👤 Profil</button>
+</nav>
+
+<script>
+let likes=0;
+
+function loadVideo(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  document.getElementById('videoBox').innerHTML=
+    '<video src="'+url+'" controls autoplay loop playsinline></video>';
+}
+
+function like(){
+  likes++;
+  document.getElementById('likes').textContent=likes;
+}
+
+function comment(){
+  const text=prompt('Écris ton commentaire :');
+  if(text && text.trim()){
+    const p=document.createElement('p');
+    p.textContent='💬 '+text;
+    document.getElementById('comments').appendChild(p);
+  }
+}
+
+function share(){
+  if(navigator.share){
+    navigator.share({title:'Alpha Tik',text:'Découvre Alpha Tik !',url:location.href});
+  }else{
+    prompt('Copie le lien de cette page :',location.href);
+  }
+}
+
+function showSearch(){
+  const q=prompt('Que veux-tu rechercher sur Alpha Tik ?');
+  if(q)alert('La recherche en ligne sera ajoutée dans une prochaine version.');
+}
+
+function upload(){
+  document.querySelector('input[type=file]').click();
+}
+
+function profile(){
+  alert('Bienvenue sur ton profil Alpha Tik ! La création de compte sera ajoutée dans une prochaine version.');
+}
+
+function home(){
+  location.reload();
+}
+</script>
+</body>
+</html>
